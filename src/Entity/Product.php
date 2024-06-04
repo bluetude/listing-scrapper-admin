@@ -6,15 +6,18 @@ use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
+    #[Groups(['product'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['product'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -24,13 +27,16 @@ class Product
     #[ORM\OneToMany(targetEntity: Listing::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $listings;
 
+    #[Groups(['product'])]
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Store $store = null;
 
+    #[Groups(['product'])]
     #[ORM\Column(length: 255)]
     private ?string $searchTerm = null;
 
+    #[Groups(['product'])]
     #[ORM\Column(nullable: true)]
     private ?float $maxPrice = null;
 
