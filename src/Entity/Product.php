@@ -18,17 +18,21 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $search_term = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?float $max_price = null;
-
     /**
      * @var Collection<int, Listing>
      */
     #[ORM\OneToMany(targetEntity: Listing::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $listings;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Store $store = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $searchTerm = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $maxPrice = null;
 
     public function __construct()
     {
@@ -48,30 +52,6 @@ class Product
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSearchTerm(): ?string
-    {
-        return $this->search_term;
-    }
-
-    public function setSearchTerm(string $search_term): static
-    {
-        $this->search_term = $search_term;
-
-        return $this;
-    }
-
-    public function getMaxPrice(): ?float
-    {
-        return $this->max_price;
-    }
-
-    public function setMaxPrice(float $max_price): static
-    {
-        $this->max_price = $max_price;
 
         return $this;
     }
@@ -102,6 +82,42 @@ class Product
                 $listing->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStore(): ?Store
+    {
+        return $this->store;
+    }
+
+    public function setStore(?Store $store): static
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    public function getSearchTerm(): ?string
+    {
+        return $this->searchTerm;
+    }
+
+    public function setSearchTerm(string $searchTerm): static
+    {
+        $this->searchTerm = $searchTerm;
+
+        return $this;
+    }
+
+    public function getMaxPrice(): ?float
+    {
+        return $this->maxPrice;
+    }
+
+    public function setMaxPrice(?float $maxPrice): static
+    {
+        $this->maxPrice = $maxPrice;
 
         return $this;
     }
