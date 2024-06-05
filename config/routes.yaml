@@ -8,3 +8,6 @@ api:
     resource: ../src/Api/Action/
     type: attribute
     prefix: api
+
+api_login_check:
+    path: /api/login
